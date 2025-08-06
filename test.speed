@@ -1,0 +1,58 @@
+-- Speed GUI (Delta/KRNL)
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+local screen = Instance.new("ScreenGui", PlayerGui)
+screen.Name = "SpeedHackGui"
+screen.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", screen)
+frame.Size = UDim2.new(0,250,0,120)
+frame.Position = UDim2.new(0.5,-125,0.5,-60)
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.Active = true
+frame.Draggable = true
+
+local title = Instance.new("TextLabel", frame)
+title.Text = "Speed Hack"
+title.Size = UDim2.new(1,0,0,30)
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.new(1,1,1)
+title.Font = Enum.Font.SourceSansBold
+title.TextScaled = true
+
+local inputBox = Instance.new("TextBox", frame)
+inputBox.PlaceholderText = "15 = default walkspeed"
+inputBox.Text = ""
+inputBox.Size = UDim2.new(0.8,0,0,30)
+inputBox.Position = UDim2.new(0.1,0,0.4,0)
+inputBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
+inputBox.TextColor3 = Color3.new(1,1,1)
+inputBox.Font = Enum.Font.SourceSans
+inputBox.TextScaled = true
+
+local apply = Instance.new("TextButton", frame)
+apply.Text = "Apply Speed"
+apply.Size = UDim2.new(0.8,0,0,30)
+apply.Position = UDim2.new(0.1,0,0.75,0)
+apply.BackgroundColor3 = Color3.fromRGB(70,130,180)
+apply.TextColor3 = Color3.new(1,1,1)
+apply.Font = Enum.Font.SourceSansBold
+apply.TextScaled = true
+
+apply.MouseButton1Click:Connect(function()
+    local speed = tonumber(inputBox.Text)
+    if speed then
+        local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hum then
+            hum.WalkSpeed = speed
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Speed Set",
+                Text = "Speed set to "..speed,
+                Duration = 2
+            })
+        end
+    end
+end)
